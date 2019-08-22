@@ -11,10 +11,9 @@
 
     <h1>Monte Carlo Forecaster</h1>
 
-    <div class="columns">
+    <div id="app" class="columns">
 
     <div class="column is-one-third">
-      <section id="app">
         <div class="card" v-for="item in trainingData" style="margin: 5px;">
           <header class="card-header">
             <p class="card-header-title">Size: {{ item.size }}</p>
@@ -31,12 +30,23 @@
             </div>
           </div>
         </div>
-      </section>
     </div>
 
 
     <div class="column is-two-thirds">
-
+      <div class="card" style="margin: 5px;">
+        <header class="card-header">
+          <p class="card-header-title">Backlog</p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div v-for="item in backlog">
+              <label>{{ item.size }}</label>
+              <input v-model="item.count" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="text/javascript" src="index.js"></script>
