@@ -15,13 +15,22 @@
 
     <div class="column is-one-third">
       <section id="app">
-          <b-field label="Tags with 3 characters">
-              <b-taginput
-                  v-model="tags"
-                  allow-duplicates="true"
-                  :before-adding="beforeAdding">
-              </b-taginput>
-          </b-field>
+        <div class="card" v-for="item in trainingData" style="margin: 5px;">
+          <header class="card-header">
+            <p class="card-header-title">Size: {{ item.size }}</p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <b-field label="Historical sizes">
+                  <b-taginput
+                      v-model="item.values"
+                      v-bind:allow-duplicates="true"
+                      :before-adding="beforeAdding">
+                  </b-taginput>
+              </b-field>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
 
