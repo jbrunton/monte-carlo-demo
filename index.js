@@ -7,17 +7,6 @@ function isNumeric(num){
 
 new Vue({
   el: '#app',
-  data: {
-    todos: [
-      { text: 'Learn JavaScript' },
-      { text: 'Learn Vue' },
-      { text: 'Build something awesome' }
-    ]
-  }
-});
-
-new Vue({
-  el: '#app-2',
   data() {
       return {
           tags: [
