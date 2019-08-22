@@ -1,8 +1,12 @@
 <html>
 
     <head>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
 
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
     </head>
 
     <h1>Monte Carlo Forecaster</h1>
@@ -14,6 +18,17 @@
             </li>
         </ol>
     </div>
+
+
+      <section id="app-2">
+          <b-field label="Tags with 3 characters">
+              <b-taginput
+                  v-model="tags"
+                  allow-duplicates="true"
+                  :before-adding="beforeAdding">
+              </b-taginput>
+          </b-field>
+      </section>
 
     <script type="text/javascript" src="index.js"></script>
 
