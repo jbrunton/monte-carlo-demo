@@ -44,10 +44,16 @@
               <label>{{ item.size }}</label>
               <input v-model="item.count" />
             </div>
+
+            <div v-for="result in results">
+              Percentile: {{ result.percentile }}%, count: {{ result.count }}, cost: {{ formatCurrency(result.count * 2000) }}
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+  </div>
 
     <script type="text/javascript" src="index.js"></script>
 
