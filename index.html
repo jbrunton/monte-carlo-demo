@@ -12,48 +12,52 @@
     <h1>Monte Carlo Forecaster</h1>
 
     <div id="app" class="columns">
+      <div class="column is-one-third">
 
-    <div class="column is-one-third">
-        <div class="card" v-for="item in trainingData" style="margin: 5px;">
+        <div class="card" style="margin: 5px;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Story Counts</th>
+              </tr>
+            </thead>
+            <tr v-for="item in trainingData" style="margin: 5px;">
+              <td>{{ item.size }}</td>
+              <td>
+                <b-taginput
+                    v-model="item.values"
+                    v-bind:allow-duplicates="true"
+                    :before-adding="beforeAdding">
+                </b-taginput>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+      <div class="column is-two-thirds">
+
+        <div class="card" style="margin: 5px;">
           <header class="card-header">
-            <p class="card-header-title">Size: {{ item.size }}</p>
+            <p class="card-header-title">Backlog</p>
           </header>
           <div class="card-content">
             <div class="content">
-              <b-field label="Historical sizes">
-                  <b-taginput
-                      v-model="item.values"
-                      v-bind:allow-duplicates="true"
-                      :before-adding="beforeAdding">
-                  </b-taginput>
-              </b-field>
+              <div v-for="item in backlog">
+                <label>{{ item.size }}</label>
+                <input v-model="item.count" />
+              </div>
+
+              <div v-for="result in results">
+                Percentile: {{ result.percentile }}%, count: {{ result.count }}, cost: {{ formatCurrency(result.count * 2000) }}
+              </div>
             </div>
           </div>
         </div>
-    </div>
 
-
-    <div class="column is-two-thirds">
-      <div class="card" style="margin: 5px;">
-        <header class="card-header">
-          <p class="card-header-title">Backlog</p>
-        </header>
-        <div class="card-content">
-          <div class="content">
-            <div v-for="item in backlog">
-              <label>{{ item.size }}</label>
-              <input v-model="item.count" />
-            </div>
-
-            <div v-for="result in results">
-              Percentile: {{ result.percentile }}%, count: {{ result.count }}, cost: {{ formatCurrency(result.count * 2000) }}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-
-  </div>
 
     <script type="text/javascript" src="index.js"></script>
 
