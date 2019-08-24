@@ -7,6 +7,8 @@
 
       <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
       <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+      <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
     </head>
 
     <h1>Monte Carlo Forecaster</h1>
@@ -29,24 +31,7 @@
         </div>
 
         <div class="card" style="margin: 5px;">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Size</th>
-                <th>Story Counts</th>
-              </tr>
-            </thead>
-            <tr v-for="item in trainingData" style="margin: 5px;">
-              <td>{{ item.size }}</td>
-              <td>
-                <b-taginput
-                    v-model="item.values"
-                    v-bind:allow-duplicates="true"
-                    :before-adding="beforeAdding">
-                </b-taginput>
-              </td>
-            </tr>
-          </table>
+          <training-data :rows="trainingData.rows"></training-data>
         </div>
 
       </div>

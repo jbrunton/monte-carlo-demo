@@ -13,11 +13,19 @@ var epicSizes = {
 
 var data = {
   sizes: ['XS', 'S', 'M', 'L', 'XL'],
-  // trainingData: [
-  //   {size: 'S', values: [2, 5, 2, 8, 7]},
-  //   {size: 'M', values: [10, 12, 18, 9, 13]},
-  //   {size: 'L', values: [25, 34, 21, 31, 45]}
-  // ],
+  trainingData: {
+    rows: [
+      { size: 'S', values: epicSizes['S'] },
+      { size: 'M', values: epicSizes['M'] },
+      { size: 'L', values: epicSizes['L'] }
+    ],
+    columns: [{
+      field: 'size',
+      label: 'Size',
+    }]
+  },
+  draggingRow: null,
+  draggingRowIndex: null,
   backlog: [
     {size: 'S', count: 8},
     {size: 'M', count: 10},
@@ -54,6 +62,32 @@ function select(size) {
 //   return { percentile: percentile, count: runs[percentile * 10].count };
 // });
 
+
+Vue.component('training-data', {
+  props: ['rows'],
+  template: `
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Story Counts</th>
+        </tr>
+      </thead>
+      <draggable v-model="rows" group="rows" tag="tbody">
+        <tr v-for="item in rows" :key="rows.size">
+          <td>{{ item.size }}</td>
+          <td>
+            <b-taginput
+                v-model="item.values"
+                v-bind:allow-duplicates="true">
+            </b-taginput>
+          </td>
+        </tr>
+      </draggable>
+    </table>
+  `
+});
+
 var formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
@@ -70,13 +104,27 @@ new Vue({
     },
     formatCurrency(value) {
       return formatter.format(value);
-    }
-  },
-  computed: {
-    trainingData: function () {
-      return this.sizes.map(function(size) {
-        return { size: size, values: epicSizes[size] || [] };
-      });
+    },
+    dragstart (payload) {
+      this.draggingRow = payload.row
+      this.draggingRowIndex = payload.index
+      payload.event.dataTransfer.effectAllowed = 'copy'
+    },
+    dragover(payload) {
+      payload.event.dataTransfer.dropEffect = 'copy'
+      payload.event.target.closest('tr').classList.add('is-selected')
+      payload.event.preventDefault()
+    },
+    dragleave(payload) {
+      payload.event.target.closest('tr').classList.remove('is-selected')
+      payload.event.preventDefault()
+    },
+    drop(payload) {
+      payload.event.target.closest('tr').classList.remove('is-selected')
+      const droppedOnRowIndex = payload.index
+      this.$buefy.toast.open(`Moved ${this.draggingRow.size} from row ${this.draggingRowIndex + 1} to ${droppedOnRowIndex + 1}`)
+      [this.trainingData.rows[this.draggingRowIndex], this.trainingData.rows[droppedOnRowIndex]] =
+          [this.trainingData.rows[droppedOnRowIndex], this.trainingData.rows[this.draggingRowIndex]]
     }
   }
 })
